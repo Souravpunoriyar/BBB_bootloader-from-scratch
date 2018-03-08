@@ -1,0 +1,238 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+                0x402f0400                . = 0x402f0400
+
+.text           0x402f0400     0x1ef8
+ startup.o(RESET_VECTOR)
+ RESET_VECTOR   0x402f0400       0x6c startup.o
+                0x402f0400                _asm_entry
+                0x402f0448                _undefined_instruction
+                0x402f044c                _software_interrupt
+                0x402f0450                _prefetch_abort
+                0x402f0454                _data_abort
+                0x402f0458                _interrupt
+                0x402f045c                _fast_interrupt
+ *(.text)
+ .text          0x402f046c        0x0 startup.o
+ .text          0x402f046c      0x5c4 serial_test.o
+                0x402f046c                reverse_str
+                0x402f04c8                itoa_new
+                0x402f05ac                get_hex_string
+                0x402f06ac                main_switch
+                0x402f097c                c_entry
+ .text          0x402f0a30       0x28 common.o
+                0x402f0a30                delay
+ .text          0x402f0a58      0x394 interrupt.o
+                0x402f0a68                interrupt_vectors_address_get
+                0x402f0a9c                interrupt_vectors_address_set
+                0x402f0ac8                undefined_instruction_vector
+                0x402f0adc                software_interrupt_vector
+                0x402f0af0                prefetch_abort_vector
+                0x402f0b04                data_abort_vector
+                0x402f0b18                interrupt_vector
+                0x402f0b6c                fast_interrupt_vector
+                0x402f0c24                interrupt_init
+                0x402f0c40                interrupt_shut
+                0x402f0c58                interrupt_enable
+                0x402f0ce8                interrupt_disable
+                0x402f0d78                interrupt_handler_register
+                0x402f0db4                interrupt_handler_unregister
+ .text          0x402f0dec      0x4f8 dumper.o
+                0x402f0dec                dump_regs
+                0x402f11f4                dump_loc
+                0x402f12c4                dumper
+ .text          0x402f12e4      0x2b0 serial.o
+                0x402f12e4                serial_init
+                0x402f144c                serial_shut
+                0x402f1494                serial_byte_tx
+                0x402f14c8                serial_byte_available
+                0x402f14f0                serial_byte_rx
+                0x402f1520                serial_tx
+                0x402f1548                serial_rx
+ .text          0x402f1594      0x3e0 get_core_details.o
+                0x402f1594                set_string_zero
+                0x402f15c8                get_main_id
+                0x402f15ec                get_processor_feature_0
+                0x402f1610                get_processor_feature_1
+                0x402f1634                get_processor_multiprocessor_id
+                0x402f1658                get_processor_debug_feature_model
+                0x402f167c                get_processor_Secure_Configuration_Register
+                0x402f16a0                detail_list
+                0x402f18d8                get_core_details
+ .text          0x402f1974      0x110 core_init.o
+                0x402f1974                read_SCTLR
+                0x402f19ec                enable_Icache_L1
+                0x402f1a30                neon_enable
+                0x402f1a50                neon_disable
+                0x402f1a70                core_init
+ .text          0x402f1a84      0x574 ddr3.o
+                0x402f1a84                enable_emif_clocks_x
+                0x402f1ab4                ddr_pll_config_x
+                0x402f1bc8                config_cmd_ctrl_x
+                0x402f1c40                config_ddr_data_x_0
+                0x402f1cac                config_ddr_data_x_1
+                0x402f1d18                config_io_ctrl_x
+                0x402f1d6c                config_ddr_phy_x
+                0x402f1d94                set_sdram_timings_x
+                0x402f1e00                config_sdram_x
+                0x402f1f2c                config_ddr_x
+ .text          0x402f1ff8       0x5c led.o
+                0x402f1ff8                led_on
+                0x402f2024                led_off
+ .text          0x402f2054      0x220 mmu.o
+                0x402f2128                init_translation
+                0x402f21d0                mmu_init
+ .text          0x402f2274       0x54 load_kernel.o
+                0x402f2274                load_kernel
+ .text.__stub   0x402f22c8       0x30 linker stubs
+
+.rodata         0x402f22f8      0x5b0
+ .rodata        0x402f22f8      0x1e4 serial_test.o
+ .rodata        0x402f24dc       0x44 interrupt.o
+ .rodata        0x402f2520       0xbc dumper.o
+ .rodata        0x402f25dc       0xe8 get_core_details.o
+ .rodata        0x402f26c4      0x170 ddr3.o
+ .rodata        0x402f2834       0x24 led.o
+ .rodata        0x402f2858        0x4 mmu.o
+ .rodata        0x402f285c       0x4c load_kernel.o
+
+.glue_7         0x402f28a8        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x402f28a8        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x402f28a8        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x402f28a8        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.iplt           0x402f28a8        0x0
+ .iplt          0x00000000        0x0 startup.o
+
+.rel.dyn        0x402f28a8        0x0
+ .rel.iplt      0x00000000        0x0 startup.o
+
+.data           0x402f28a8        0x0
+ *(.data)
+ .data          0x402f28a8        0x0 startup.o
+ .data          0x402f28a8        0x0 serial_test.o
+ .data          0x402f28a8        0x0 common.o
+ .data          0x402f28a8        0x0 interrupt.o
+ .data          0x402f28a8        0x0 dumper.o
+ .data          0x402f28a8        0x0 serial.o
+ .data          0x402f28a8        0x0 get_core_details.o
+ .data          0x402f28a8        0x0 core_init.o
+ .data          0x402f28a8        0x0 ddr3.o
+ .data          0x402f28a8        0x0 led.o
+ .data          0x402f28a8        0x0 mmu.o
+ .data          0x402f28a8        0x0 load_kernel.o
+
+.igot.plt       0x402f28a8        0x0
+ .igot.plt      0x00000000        0x0 startup.o
+
+.bss            0x402f4000     0x8000
+                0x402f4000                bss_begin = .
+ *(.bss)
+ .bss           0x402f4000        0x0 startup.o
+ .bss           0x402f4000        0x0 serial_test.o
+ .bss           0x402f4000        0x0 common.o
+ .bss           0x402f4000      0x200 interrupt.o
+ .bss           0x402f4200        0x0 dumper.o
+ .bss           0x402f4200        0x0 serial.o
+ .bss           0x402f4200        0x0 get_core_details.o
+ .bss           0x402f4200        0x0 core_init.o
+ .bss           0x402f4200        0x0 ddr3.o
+ .bss           0x402f4200        0x0 led.o
+ *fill*         0x402f4200     0x3e00 
+ .bss           0x402f8000     0x4000 mmu.o
+ .bss           0x402fc000        0x0 load_kernel.o
+                0x402fc000                . = ALIGN (0x4)
+                0x402fc000                bss_end = .
+                0x4030b800                stack_top = 0x4030b800
+LOAD serial_test.o
+LOAD common.o
+LOAD startup.o
+LOAD interrupt.o
+LOAD dumper.o
+LOAD serial.o
+LOAD get_core_details.o
+LOAD core_init.o
+LOAD ddr3.o
+LOAD led.o
+LOAD mmu.o
+LOAD load_kernel.o
+OUTPUT(serial_test.elf elf32-littlearm)
+
+.ARM.attributes
+                0x00000000       0x31
+ .ARM.attributes
+                0x00000000       0x16 startup.o
+ .ARM.attributes
+                0x00000016       0x35 serial_test.o
+ .ARM.attributes
+                0x0000004b       0x35 common.o
+ .ARM.attributes
+                0x00000080       0x35 interrupt.o
+ .ARM.attributes
+                0x000000b5       0x35 dumper.o
+ .ARM.attributes
+                0x000000ea       0x35 serial.o
+ .ARM.attributes
+                0x0000011f       0x35 get_core_details.o
+ .ARM.attributes
+                0x00000154       0x35 core_init.o
+ .ARM.attributes
+                0x00000189       0x35 ddr3.o
+ .ARM.attributes
+                0x000001be       0x35 led.o
+ .ARM.attributes
+                0x000001f3       0x35 mmu.o
+ .ARM.attributes
+                0x00000228       0x35 load_kernel.o
+
+.comment        0x00000000       0x63
+ .comment       0x00000000       0x63 serial_test.o
+                                 0x64 (size before relaxing)
+ .comment       0x00000000       0x64 common.o
+ .comment       0x00000000       0x64 interrupt.o
+ .comment       0x00000000       0x64 dumper.o
+ .comment       0x00000000       0x64 serial.o
+ .comment       0x00000000       0x64 get_core_details.o
+ .comment       0x00000000       0x64 core_init.o
+ .comment       0x00000000       0x64 ddr3.o
+ .comment       0x00000000       0x64 led.o
+ .comment       0x00000000       0x64 mmu.o
+ .comment       0x00000000       0x64 load_kernel.o
+
+.note.GNU-stack
+                0x00000000        0x0
+ .note.GNU-stack
+                0x00000000        0x0 serial_test.o
+ .note.GNU-stack
+                0x00000000        0x0 common.o
+ .note.GNU-stack
+                0x00000000        0x0 interrupt.o
+ .note.GNU-stack
+                0x00000000        0x0 dumper.o
+ .note.GNU-stack
+                0x00000000        0x0 serial.o
+ .note.GNU-stack
+                0x00000000        0x0 get_core_details.o
+ .note.GNU-stack
+                0x00000000        0x0 core_init.o
+ .note.GNU-stack
+                0x00000000        0x0 ddr3.o
+ .note.GNU-stack
+                0x00000000        0x0 led.o
+ .note.GNU-stack
+                0x00000000        0x0 mmu.o
+ .note.GNU-stack
+                0x00000000        0x0 load_kernel.o

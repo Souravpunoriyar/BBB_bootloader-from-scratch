@@ -4,6 +4,59 @@
 #include "mmu.h"
 #include "dumper.h"
 
+void reverse_str(char *str, int len)
+{
+ int start =0;
+ int end = len -1;
+ char temp = '0';
+ while(start < len)
+ {
+   temp = str[start];
+   str[start] = str[end];
+   str[end] = temp;
+   start++;
+   end--;
+ } 
+
+}
+
+char* itoa_new(int num, char *str, int base) //:TODO Supports only base as 10 (__aeabi_idiv error)
+{
+int i = 0;
+int isNeg = 0;
+int rem = 0;
+if(num == 0)
+{
+  str[i++] = '0';
+  str[i]='\0';
+  return str;
+}
+
+if(num < 0 && base == 10)
+{
+  isNeg = 1;
+  num = -num;
+}
+
+while(num != 0)
+{
+  rem = num % 10;
+  str[i++]= (rem > 9)?(rem -10) + 'a' : rem + '0';
+  num = num/10;
+
+}
+
+if(isNeg)
+  str[i++] = '-';
+
+str[i] = '\0';  
+
+reverse_str(str, i);
+return str;
+}
+
+
+
 void get_hex_string(int num , char *hex_string, int string_size)
 {
   int rmndr = 0, temp = 0;
@@ -38,6 +91,8 @@ void main_switch(char check_case)
 	unsigned int i = 0;
 	char hex_string[50] = {0};
 	char *mem = (char*)BASE_ADRESS;  
+        char ram_test_byte = 'a';
+	char check_ram_byte;
 	switch(check_case) 
 	{
 	
@@ -49,6 +104,7 @@ void main_switch(char check_case)
 	           serial_tx("e: MMU init \r\n");
 	           serial_tx("f: led on \r\n");
 		   serial_tx("g: led off \r\n");
+		   serial_tx("k: load kernel (initialize ram)\r\n");
 		   serial_tx("h: dumper default location:0x402F0400 siz 50\r\n");
 	         break; 
 		
@@ -68,20 +124,35 @@ void main_switch(char check_case)
 	              serial_tx("\r\n");
 	              serial_tx(hex_string);
 	            }*/
+		    *mem = ram_test_byte;
+		    serial_tx("Checking data in ram\r\n");
+                    check_ram_byte = *mem;
+		    serial_tx(&check_ram_byte);
+		    serial_tx("Checking data in ram Complete\r\n");
+
 	         break; 
 
 	  case 'e' :mmu_init();
 		 break;
 
 	  case 'f' : led_on();
+		    check_ram_byte = *mem;
+		    serial_tx(&check_ram_byte);
+		    serial_tx("Checking data in ram Complete\r\n");
+
 		break;	 
 
 	  case 'g' : led_off();
+               *mem = 'z';
+                  
 		break;
 
 	  case 'h':dumper(0x402F0400,50);
       		break;		   
-	         
+
+    	  case 'k':load_kernel();
+       		break;		   
+	  	         
 	  default:
 	       serial_tx("Default case \r\n");	
 	       serial_tx("Help---- use below commands \r\n");
@@ -93,6 +164,7 @@ void main_switch(char check_case)
 	       serial_tx("e: MMU init \r\n");
 	       serial_tx("f: led on \r\n");
 	       serial_tx("g: led off \r\n");
+	       serial_tx("k: load kernel (initialize ram)\r\n");
 	       serial_tx("h: dumper default location:0x402F0400 siz 50\r\n");
 
 	}
@@ -104,7 +176,7 @@ void main_switch(char check_case)
 
 int c_entry(void)
 {
-	char str[32];
+    char str[32];
     int num = 45;
     int fret = 0;
     char hex_string[32] = {0};
@@ -114,7 +186,7 @@ int c_entry(void)
 	int val = 0;
 	serial_byte_rx();
 	serial_tx("Welcome to 1st bootloader\r\n");
-    serial_tx("Enter ? for help\r\n");    
+        serial_tx("Enter ? for help\r\n");    
     for (;;)
 	{
 //		led_on();

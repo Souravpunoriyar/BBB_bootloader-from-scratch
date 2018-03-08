@@ -8,7 +8,7 @@ all: ${BINS}
 
 #leds_test.elf: leds.o
 
-serial_test.elf: serial.o get_core_details.o core_init.o ddr3.o led.o mmu.o dumper.o
+serial_test.elf: serial.o get_core_details.o core_init.o ddr3.o led.o mmu.o load_kernel.o
 
 #switch_test.elf: switch.o leds.o debug.o serial.o
 
@@ -21,7 +21,7 @@ serial_test.elf: serial.o get_core_details.o core_init.o ddr3.o led.o mmu.o dump
 #decode_xmodem.elf: serial.o debug.o
 
 .dep: ${SRCS}
-	@${CROSS_COMPILE}gcc ${CFLAGS} -MM $^ > .dep
+	@${CROSS_COMPILE}gcc ${CFLAGS} -L /home/SKP/Desktop/opensrc/arm_comp_skp/lib/gcc/arm-linux-gnueabihf/4.8.3/libgcc.a -MM $^ > .dep
 
 allclean: clean
 	${RM} .dep a.out

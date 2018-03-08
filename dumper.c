@@ -2,56 +2,6 @@
 #include "common.h"
 #include "serial.h"
 
-void reverse_str(char *str, int len)
-{
- int start =0;
- int end = len -1;
- char temp = '0';
- while(start < len)
- {
-   temp = str[start];
-   str[start] = str[end];
-   str[end] = temp;
-   start++;
-   end--;
- } 
-
-}
-
-char* itoa_new(int num, char *str, int base)
-{
-int i = 0;
-int isNeg = 0;
-int rem = 0;
-if(num == 0)
-{
-  str[i++] = '0';
-  str[i]='\0';
-  return str;
-}
-
-if(num < 0 && base == 10)
-{
-  isNeg = 1;
-  num = -num;
-}
-
-while(num != 0)
-{
-  rem = num % base;
-  str[i++]= (rem > 9)?(rem -10) + 'a' : rem + '0';
-  num = num/base;
-
-}
-
-if(isNeg)
-  str[i++] = '-';
-
-str[i] = '\0';  
-
-reverse_str(str, i);
-return str;
-}
 
 
 void dump_regs(void)

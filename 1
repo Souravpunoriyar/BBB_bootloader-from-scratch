@@ -13,7 +13,6 @@ CFLAGS += ${OPTIMIZATION_FLAGS}
 #ASFLAGS += -mfpu=neon
 #LDFLAGS = -T first.lds
 LDFLAGS := -T linker.lds
-LDFLAGS += -m armelf_linux_eabi
 LDFLAGS += -L /home/SKP/Desktop/opensrc/arm_comp_skp/lib/gcc/arm-linux-gnueabihf/4.8.3/libgcc.a
 LDFLAGS += -Map=$*.map
 
@@ -27,7 +26,7 @@ default: ${TARGET}.bin
 #%.elf: %.o
 #%.elf: %.o first_startup.o
 #%.elf: %.o common.o first_startup.o
-%.elf: %.o common.o startup.o interrupt.o dumper.o
+%.elf: %.o common.o startup.o interrupt.o dumper.o 
 	${LD} ${LDFLAGS} $^ -o $@
 
 #%.o: %.c

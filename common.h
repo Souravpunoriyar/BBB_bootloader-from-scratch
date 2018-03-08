@@ -15,7 +15,7 @@ void delay(uint32_t nr_of_nops);
 
 int set_string_zero(char *string, int size);
 void get_hex_string(int num , char *hex_string, int string_size);
-
+int load_kernel();
 //void delay_us(uint32_t usecs);
 
 #endif

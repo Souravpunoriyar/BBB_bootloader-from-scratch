@@ -12,5 +12,7 @@ uint8_t serial_byte_rx(void);
 void serial_tx(char* str);
 void serial_rx(char *str, int max_len);
 void get_hex_string(int num , char *hex_string, int string_size);
+char* itoa_new(int num, char *str, int base);
+void reverse_str(char *str, int len);
 
 #endif
