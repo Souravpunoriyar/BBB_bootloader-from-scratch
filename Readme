@@ -1,7 +1,8 @@
 picocom -b 115200 /dev/ttyUSB0 --send-cmd "sx -vv"
 to add file := use ctrl+a+s
-button s2
-echo -ne 'abc' > ttyUSB0 
+button s2 + power
+ctrl+a+s to load new exe
+cat kernel_exe > ttyUSB0 
 
 connect J4 (RXD) to TXD line of  CP2102 USB2.0 to TTL UART serial converter
 Connect J5 (TXD) to RXD line of  CP2102 USB2.0 to TTL UART serial converter
