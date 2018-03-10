@@ -104,6 +104,10 @@ uint8_t serial_byte_rx(void)
 	return UART0_RHR;
 }
 
+
+
+
+
 void serial_tx(char* str)
 {
 	while (*str)
@@ -123,3 +127,19 @@ void serial_rx(char *str, int max_len)
 	}
 	str[i] = 0;
 }
+
+
+
+void serial_rx_image_xfer(int max_len)
+{
+	int i;
+	char *mem = (char*)BASE_ADRESS;
+	for (i = 0; i <= max_len; i++)
+	{
+		*mem = serial_byte_rx();		
+	 	 mem++;
+	}
+	*mem = 0;
+
+}
+

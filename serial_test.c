@@ -4,6 +4,9 @@
 #include "mmu.h"
 #include "dumper.h"
 
+
+int ddr_init_check =0;
+
 void reverse_str(char *str, int len)
 {
  int start =0;
@@ -83,7 +86,6 @@ void get_hex_string(int num , char *hex_string, int string_size)
 
 }
 
-#define BASE_ADRESS (0x80000000)
 /*make separate file main_switch*/
 void main_switch(char check_case)
 {
@@ -101,10 +103,10 @@ void main_switch(char check_case)
 	           serial_tx("b: Core init \r\n");   	   	
 	           serial_tx("c: Beaglebone black ddr3  init \r\n");
 	           serial_tx("d: Test ddr memory range \r\n");
-	           serial_tx("e: MMU init \r\n");
+	           serial_tx("e: MMU init (Not working) \r\n");
 	           serial_tx("f: led on \r\n");
 		   serial_tx("g: led off \r\n");
-		   serial_tx("k: load kernel (initialize ram)\r\n");
+		   serial_tx("k: load executable File to ram and execute (initialize ram first)\r\n");
 		   serial_tx("h: dumper default location:0x402F0400 siz 50\r\n");
 	         break; 
 		
@@ -115,42 +117,54 @@ void main_switch(char check_case)
 	         break; 
 	         
 	  case 'c':config_ddr_x(); 	
+		   ddr_init_check = 1;
 	         break; 
 	         
 	  case 'd' :
-	           /*
-	          for(i=0; i<5000; i--){
-	              get_hex_string( (int*)(mem+i) , hex_string, 50);  
-	              serial_tx("\r\n");
-	              serial_tx(hex_string);
-	            }*/
+	           
+		 if(!ddr_init_check)
+		 { 
+		  serial_tx("Please initialize ddr first \r\n");
+		  break;
+		}
+	          for(i=0; i<20; i++){      
+                       *mem = 'a';
+		        mem++;  
+	            }
+		  serial_tx("Dumping memory \r\n");
+                  serial_tx("Checking data in ram Complete\r\n");
+   		  dumper(0x80000000,20);
+		#if 0
+		    get_hex_string( (int*)(mem+i) , hex_string, 49);  
+	            serial_tx("\r\n");
+	            serial_tx(hex_string);
 		    *mem = ram_test_byte;
 		    serial_tx("Checking data in ram\r\n");
                     check_ram_byte = *mem;
 		    serial_tx(&check_ram_byte);
 		    serial_tx("Checking data in ram Complete\r\n");
-
+                 #endif
 	         break; 
 
 	  case 'e' :mmu_init();
 		 break;
 
-	  case 'f' : led_on();
-		    check_ram_byte = *mem;
-		    serial_tx(&check_ram_byte);
-		    serial_tx("Checking data in ram Complete\r\n");
-
+	  case 'f' : led_on();		    
 		break;	 
 
 	  case 'g' : led_off();
-               *mem = 'z';
-                  
 		break;
 
-	  case 'h':dumper(0x402F0400,50);
+	  case 'h':dumper((int)mem,50);
       		break;		   
 
-    	  case 'k':load_kernel();
+    	  case 'k':
+		 if(!ddr_init_check)
+		 { 
+		  serial_tx("Please initialize ddr first \r\n");
+		  break;
+		 }
+		   load_kernel();
        		break;		   
 	  	         
 	  default:

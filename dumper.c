@@ -130,7 +130,7 @@ void dump_loc(unsigned long int address, unsigned int size)
       get_hex_string(val, hex_str, 50); 
       serial_tx(hex_str);
       serial_tx("] ");
-      serial_tx("\r\t");
+      serial_tx("\r\n");
       i++;  
    }
  

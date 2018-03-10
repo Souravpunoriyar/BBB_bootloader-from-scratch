@@ -4,6 +4,7 @@
 
 #define NULL ((void *)(0))
 
+#define BASE_ADRESS (0x80000000)
 typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
@@ -16,6 +17,7 @@ void delay(uint32_t nr_of_nops);
 int set_string_zero(char *string, int size);
 void get_hex_string(int num , char *hex_string, int string_size);
 int load_kernel();
+
 //void delay_us(uint32_t usecs);
 
 #endif
